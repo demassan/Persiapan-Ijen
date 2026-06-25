@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Persiapan Kawah Ijen</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg: #F8F7F4;
+    --surface: #FFFFFF;
+    --surface2: #F2F0EC;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.14);
+    --text-primary: #1A1A18;
+    --text-secondary: #6B6B67;
+    --text-muted: #9E9E9A;
+    --accent: #1D9E75;
+    --accent-light: #E1F5EE;
+    --accent-dark: #0F6E56;
+    --sewa: #378ADD;
+    --sewa-light: #E6F1FB;
+    --beli: #BA7517;
+    --beli-light: #FAEEDA;
+    --check-done: #1D9E75;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A1A18;
+      --surface: #242422;
+      --surface2: #2E2E2B;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.14);
+      --text-primary: #F0EFE8;
+      --text-secondary: #A0A09A;
+      --text-muted: #6B6B67;
+      --accent: #1D9E75;
+      --accent-light: #04342C;
+      --accent-dark: #5DCAA5;
+      --sewa: #378ADD;
+      --sewa-light: #042C53;
+      --beli: #EF9F27;
+      --beli-light: #412402;
+      --check-done: #5DCAA5;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    max-width: 390px;
+    margin: 0 auto;
+  }
+
+  .header {
+    background: var(--surface);
+    border-bottom: 0.5px solid var(--border);
+    padding: 20px 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+  }
+
+  .header .date-badge {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent-dark);
+    background: var(--accent-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-top: 3px;
+    white-space: nowrap;
+  }
+
+  .header .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .progress-bar-wrap {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .tabs {
+    display: flex;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 12px 8px 14px;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .tab-btn.active { color: var(--accent); }
+
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px 2px 0 0;
+  }
+
+  .tab-content { display: none; padding: 16px; }
+  .tab-content.active { display: block; }
+
+  .section { margin-bottom: 20px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 0 2px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+  }
+
+  .section-count { font-size: 11px; color: var(--text-muted); }
+
+  .items-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .item-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 0.5px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+    gap: 12px;
+  }
+
+  .item-row:last-child { border-bottom: none; }
+  .item-row:active { background: var(--surface2); }
+  .item-row.checked { background: var(--surface2); }
+
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    background: var(--surface);
+  }
+
+  .item-row.checked .checkbox {
+    background: var(--check-done);
+    border-color: var(--check-done);
+  }
+
+  .checkmark { display: none; width: 12px; height: 12px; }
+  .item-row.checked .checkmark { display: block; }
+
+  .checkmark path {
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .item-text {
+    font-size: 15px;
+    color: var(--text-primary);
+    flex: 1;
+    transition: color 0.2s;
+    line-height: 1.35;
+  }
+
+  .item-row.checked .item-text {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--text-muted);
+  }
+
+  .item-qty {
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--surface2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    letter-spacing: 0.2px;
+  }
+
+  .tag-sewa { background: var(--sewa-light); color: var(--sewa); }
+  .tag-beli { background: var(--beli-light); color: var(--beli); }
+
+  .progress-summary {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .progress-label { font-size: 13px; color: var(--text-secondary); }
+
+  .progress-count {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+
+  .progress-count span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+
+  .progress-mini {
+    width: 80px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  .progress-mini-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .reset-btn {
+    width: 100%;
+    padding: 14px;
+    background: none;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s;
+  }
+
+  .reset-btn:active { background: var(--surface2); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <h1>Kawah Ijen</h1>
+    <span class="date-badge">27–28 Juni 2026</span>
+  </div>
+  <p class="subtitle">Banyuwangi & Pendakian Pertama</p>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="globalBar" style="width:0%"></div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('persiapan')">Persiapan</button>
+    <button class="tab-btn" onclick="switchTab('pengadaan')">Pengadaan</button>
+  </div>
+</div>
+
+<!-- TAB PERSIAPAN -->
+<div id="tab-persiapan" class="tab-content active">
+
+  <div class="progress-summary">
+    <div class="progress-label">Sudah siap</div>
+    <div class="progress-count" id="count-persiapan">0 <span>/ 0</span></div>
+    <div class="progress-mini"><div class="progress-mini-fill" id="mini-persiapan" style="width:0%"></div></div>
+  </div>
+
+  <!-- Pakaian -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Pakaian</span>
+      <span class="section-count" id="sc-pakaian"></span>
+    </div>
+    <div class="items-card" id="sec-pakaian">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jersey maroon</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Celana training hitam</span>
+        <span class="item-qty">×2</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Daleman atas dan bawah</span>
+        <span class="item-qty">×2</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Kaos kaki</span>
+        <span class="item-qty">×2</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jaket Adidas</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jaket gunung</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sarung tangan</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Kupluk hitam</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Syal</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sepatu gunung + kaos kaki</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sandal biru</span>
+        <span class="item-qty">×1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Peralatan -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Peralatan</span>
+      <span class="section-count" id="sc-peralatan"></span>
+    </div>
+    <div class="items-card" id="sec-peralatan">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Senter kepala</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sleeping bag</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Masker blue fire</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Tongkat</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Powerbank + charger</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Tas 30–35L</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akomodasi Perut -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Akomodasi perut</span>
+      <span class="section-count" id="sc-makan"></span>
+    </div>
+    <div class="items-card" id="sec-makan">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Air botol 600ml</span>
+        <span class="item-qty">×3</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Pocari Sweat 500ml</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Soyjoy</span>
+        <span class="item-qty">×2</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Garuda kacang tanah 100g</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Silverqueen Dark 33%</span>
+        <span class="item-qty">×1</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Beng-Beng Max</span>
+        <span class="item-qty">×1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jaga-jaga -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Jaga-jaga</span>
+      <span class="section-count" id="sc-jagajaga"></span>
+    </div>
+    <div class="items-card" id="sec-jagajaga">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sajadah</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jas hujan</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Hand & foot warmer</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Kresek / totebag baju kotor</span>
+        <span class="item-qty">beberapa</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Uang cash</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Micellar water + handuk + gosok gigi</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">P3K motor, paracetamol, minyak angin</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="reset-btn" onclick="resetTab('persiapan')">Reset semua centang</button>
+  <div style="height:32px"></div>
+</div>
+
+<!-- TAB PENGADAAN -->
+<div id="tab-pengadaan" class="tab-content">
+
+  <div class="progress-summary">
+    <div class="progress-label">Sudah diurus</div>
+    <div class="progress-count" id="count-pengadaan">0 <span>/ 0</span></div>
+    <div class="progress-mini"><div class="progress-mini-fill" id="mini-pengadaan" style="width:0%"></div></div>
+  </div>
+
+  <!-- Belum disewa / dibeli -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Belum disewa / dibeli</span>
+      <span class="section-count" id="sc-belum"></span>
+    </div>
+    <div class="items-card" id="sec-belum">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Syal</span>
+        <span class="tag tag-sewa">Sewa</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sleeping bag</span>
+        <span class="tag tag-sewa">Sewa</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Masker blue fire</span>
+        <span class="tag tag-sewa">Sewa</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Tongkat</span>
+        <span class="tag tag-sewa">Sewa</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Powerbank</span>
+        <span class="tag tag-sewa">Sewa</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Tas 30–35L</span>
+        <span class="tag tag-sewa">Sewa</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Paracetamol + minyak angin</span>
+        <span class="tag tag-beli">Beli</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total alat sewa -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Total alat sewa</span>
+      <span class="section-count" id="sc-sewa"></span>
+    </div>
+    <div class="items-card" id="sec-sewa">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jaket gunung</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sepatu gunung</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sarung tangan</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Kupluk</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Senter kepala</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Syal</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sleeping bag</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Masker blue fire</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Tongkat</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Powerbank</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Tas 30–35L</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="reset-btn" onclick="resetTab('pengadaan')">Reset semua centang</button>
+  <div style="height:32px"></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'ijen_checklist_v2';
+
+function saveState() {
+  const state = {};
+  document.querySelectorAll('.item-row').forEach((row, i) => {
+    state[i] = row.classList.contains('checked');
+  });
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    document.querySelectorAll('.item-row').forEach((row, i) => {
+      if (state[i]) row.classList.add('checked');
+    });
+  } catch(e) {}
+}
+
+function toggle(row) {
+  row.classList.toggle('checked');
+  updateAll();
+  saveState();
+}
+
+function updateSection(secId, countId) {
+  const sec = document.getElementById(secId);
+  if (!sec) return;
+  const rows = sec.querySelectorAll('.item-row');
+  const done = sec.querySelectorAll('.item-row.checked').length;
+  const el = document.getElementById(countId);
+  if (el) el.textContent = done + '/' + rows.length;
+}
+
+function updateTab(tabId, countId, miniId) {
+  const tab = document.getElementById('tab-' + tabId);
+  if (!tab) return;
+  const rows = tab.querySelectorAll('.item-row');
+  const done = tab.querySelectorAll('.item-row.checked').length;
+  const total = rows.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const countEl = document.getElementById(countId);
+  if (countEl) countEl.innerHTML = done + ' <span>/ ' + total + '</span>';
+  const miniEl = document.getElementById(miniId);
+  if (miniEl) miniEl.style.width = pct + '%';
+}
+
+function updateAll() {
+  updateSection('sec-pakaian', 'sc-pakaian');
+  updateSection('sec-peralatan', 'sc-peralatan');
+  updateSection('sec-makan', 'sc-makan');
+  updateSection('sec-jagajaga', 'sc-jagajaga');
+  updateSection('sec-belum', 'sc-belum');
+  updateSection('sec-sewa', 'sc-sewa');
+  updateTab('persiapan', 'count-persiapan', 'mini-persiapan');
+  updateTab('pengadaan', 'count-pengadaan', 'mini-pengadaan');
+  const allRows = document.querySelectorAll('.item-row');
+  const allDone = document.querySelectorAll('.item-row.checked').length;
+  const pct = allRows.length ? Math.round(allDone / allRows.length * 100) : 0;
+  document.getElementById('globalBar').style.width = pct + '%';
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function resetTab(tabId) {
+  const tab = document.getElementById('tab-' + tabId);
+  tab.querySelectorAll('.item-row').forEach(r => r.classList.remove('checked'));
+  updateAll();
+  saveState();
+}
+
+loadState();
+updateAll();
+</script>
+</body>
+</html>
