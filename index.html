@@ -302,6 +302,22 @@
   }
 
   .reset-btn:active { background: var(--surface2); }
+
+  .item-row { flex-wrap: wrap; }
+
+  .item-hint {
+    display: none;
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 6px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--accent-dark);
+    line-height: 1.4;
+  }
+
+  .item-row.hint-open .item-hint { display: block; }
 </style>
 </head>
 <body>
@@ -437,35 +453,39 @@
       <span class="section-count" id="sc-makan"></span>
     </div>
     <div class="items-card" id="sec-makan">
-      <div class="item-row" onclick="toggle(this)">
+      <div class="item-row" onclick="toggleHint(this)">
         <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
         <span class="item-text">Air botol 600ml</span>
         <span class="item-qty">×3</span>
       </div>
-      <div class="item-row" onclick="toggle(this)">
+      <div class="item-row" onclick="toggleHint(this)">
         <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
         <span class="item-text">Pocari Sweat 500ml</span>
         <span class="item-qty">×1</span>
       </div>
-      <div class="item-row" onclick="toggle(this)">
+      <div class="item-row" onclick="toggleHint(this)">
         <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
         <span class="item-text">Soyjoy</span>
         <span class="item-qty">×2</span>
+        <span class="item-hint">🕐 Sebelum naik (01.00) — karbohidrat kompleks untuk energi stabil dari awal pendakian</span>
       </div>
-      <div class="item-row" onclick="toggle(this)">
+      <div class="item-row" onclick="toggleHint(this)">
         <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-        <span class="item-text">Garuda kacang tanah 100g</span>
+        <span class="item-text">Kacang almond roasted</span>
         <span class="item-qty">×1</span>
+        <span class="item-hint">🥾 Tengah jalur naik — lemak & protein untuk energi tahan lama</span>
       </div>
-      <div class="item-row" onclick="toggle(this)">
+      <div class="item-row" onclick="toggleHint(this)">
         <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-        <span class="item-text">Silverqueen Dark 33%</span>
+        <span class="item-text">Nutella B-ready #1</span>
         <span class="item-qty">×1</span>
+        <span class="item-hint">🌋 Di kawah / puncak — gula cepat untuk recovery setelah naik</span>
       </div>
-      <div class="item-row" onclick="toggle(this)">
+      <div class="item-row" onclick="toggleHint(this)">
         <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
-        <span class="item-text">Beng-Beng Max</span>
+        <span class="item-text">Nutella B-ready #2</span>
         <span class="item-qty">×1</span>
+        <span class="item-hint">⬇️ Saat turun — cadangan energi untuk jalur turun yang lebih berat di lutut</span>
       </div>
     </div>
   </div>
@@ -505,6 +525,20 @@
       <div class="item-row" onclick="toggle(this)">
         <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
         <span class="item-text">P3K motor, paracetamol, minyak angin</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Catatan Penting -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Catatan Penting</span>
+      <span class="section-count" id="sc-catatan"></span>
+    </div>
+    <div class="items-card" id="sec-catatan">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Surat sehat</span>
       </div>
     </div>
   </div>
@@ -651,6 +685,22 @@ function toggle(row) {
   saveState();
 }
 
+function toggleHint(row) {
+  const hint = row.querySelector('.item-hint');
+  if (!hint) {
+    toggle(row);
+    return;
+  }
+  if (!row.classList.contains('hint-open')) {
+    row.classList.add('hint-open');
+  } else {
+    row.classList.remove('hint-open');
+    row.classList.toggle('checked');
+    updateAll();
+    saveState();
+  }
+}
+
 function updateSection(secId, countId) {
   const sec = document.getElementById(secId);
   if (!sec) return;
@@ -678,6 +728,7 @@ function updateAll() {
   updateSection('sec-peralatan', 'sc-peralatan');
   updateSection('sec-makan', 'sc-makan');
   updateSection('sec-jagajaga', 'sc-jagajaga');
+  updateSection('sec-catatan', 'sc-catatan');
   updateSection('sec-belum', 'sc-belum');
   updateSection('sec-sewa', 'sc-sewa');
   updateTab('persiapan', 'count-persiapan', 'mini-persiapan');
