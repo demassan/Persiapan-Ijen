@@ -334,6 +334,7 @@
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('persiapan')">Persiapan</button>
     <button class="tab-btn" onclick="switchTab('pengadaan')">Pengadaan</button>
+    <button class="tab-btn" onclick="switchTab('packing')">Packing</button>
   </div>
 </div>
 
@@ -668,6 +669,187 @@
   <div style="height:32px"></div>
 </div>
 
+<!-- TAB PACKING -->
+<div id="tab-packing" class="tab-content">
+
+  <div class="progress-summary">
+    <div class="progress-label">Sudah dimasukkan</div>
+    <div class="progress-count" id="count-packing">0 <span>/ 0</span></div>
+    <div class="progress-mini"><div class="progress-mini-fill" id="mini-packing" style="width:0%"></div></div>
+  </div>
+
+  <!-- Paling Bawah -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">🔴 Paling bawah</span>
+      <span class="section-count" id="sc-bawah"></span>
+    </div>
+    <div class="items-card" id="sec-bawah">
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sleeping bag</span>
+        <span class="item-hint">📌 Taruh tegak/vertikal agar mudah ditarik saat camping. Jangan dikubur pakaian di atasnya.</span>
+      </div>
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Pakaian ganti (celana, daleman, kaos kaki)</span>
+        <span class="item-hint">📌 Gulung rapat, taruh di samping kanan-kiri sleeping bag — bukan di atasnya.</span>
+      </div>
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sajadah</span>
+        <span class="item-hint">📌 Gulung dan selipkan di sisi tas agar tidak makan ruang.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tengah -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">🟠 Tengah</span>
+      <span class="section-count" id="sc-tengah"></span>
+    </div>
+    <div class="items-card" id="sec-tengah">
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jaket gunung</span>
+        <span class="item-hint">📌 Dipakai saat mulai naik jam 01.15 — taruh di posisi mudah dijangkau dari tengah.</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jas hujan</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sandal biru</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Micellar water + handuk + gosok gigi</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Kresek / totebag baju kotor</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Atas -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">🟡 Atas</span>
+      <span class="section-count" id="sc-atas"></span>
+    </div>
+    <div class="items-card" id="sec-atas">
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Air botol 600ml ×3 + Pocari 500ml</span>
+        <span class="item-hint">📌 Kalau tas ada side pocket, taruh di sana — lebih mudah ambil tanpa buka tas.</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Powerbank + charger</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">P3K (kotak motor, paracetamol, minyak angin)</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Hand & foot warmer</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Surat sehat</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kantong Luar / Atas -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">🟢 Kantong luar / atas</span>
+      <span class="section-count" id="sc-kantong"></span>
+    </div>
+    <div class="items-card" id="sec-kantong">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Senter kepala</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Masker blue fire</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Kupluk + sarung tangan + syal</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Snack (Soyjoy, kacang almond, Nutella B-ready)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dipakai Langsung -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">👕 Dipakai langsung — tidak masuk tas</span>
+      <span class="section-count" id="sc-pakai"></span>
+    </div>
+    <div class="items-card" id="sec-pakai">
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jersey maroon + daleman</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Celana training hitam + sempak</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Jaket Adidas</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Sepatu gunung + kaos kaki</span>
+      </div>
+      <div class="item-row" onclick="toggle(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Kacamata (dipakai saat mendaki)</span>
+      </div>
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Tongkat</span>
+        <span class="item-hint">📌 Ikat di luar tas, jangan dimasukkan ke dalam.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saku Celana -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">👖 Saku celana / jaket</span>
+      <span class="section-count" id="sc-saku"></span>
+    </div>
+    <div class="items-card" id="sec-saku">
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">Uang cash</span>
+        <span class="item-hint">📌 Taruh di saku dalam celana atau daleman — lebih aman dari copet.</span>
+      </div>
+      <div class="item-row" onclick="toggleHint(this)">
+        <div class="checkbox"><svg class="checkmark" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5"/></svg></div>
+        <span class="item-text">HP</span>
+        <span class="item-hint">📌 Saku jaket kanan. Masukkan ke kresek kecil saat di kawah untuk lindungi dari kabut belerang.</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="reset-btn" onclick="resetTab('packing')">Reset semua centang</button>
+  <div style="height:32px"></div>
+</div>
+
 <script>
 const STORAGE_KEY = 'ijen_checklist_v2';
 
@@ -740,8 +922,15 @@ function updateAll() {
   updateSection('sec-catatan', 'sc-catatan');
   updateSection('sec-belum', 'sc-belum');
   updateSection('sec-sewa', 'sc-sewa');
+  updateSection('sec-bawah', 'sc-bawah');
+  updateSection('sec-tengah', 'sc-tengah');
+  updateSection('sec-atas', 'sc-atas');
+  updateSection('sec-kantong', 'sc-kantong');
+  updateSection('sec-pakai', 'sc-pakai');
+  updateSection('sec-saku', 'sc-saku');
   updateTab('persiapan', 'count-persiapan', 'mini-persiapan');
   updateTab('pengadaan', 'count-pengadaan', 'mini-pengadaan');
+  updateTab('packing', 'count-packing', 'mini-packing');
   const allRows = document.querySelectorAll('.item-row');
   const allDone = document.querySelectorAll('.item-row.checked').length;
   const pct = allRows.length ? Math.round(allDone / allRows.length * 100) : 0;
